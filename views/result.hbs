@@ -1,5 +1,11 @@
+
+{{#if hasContent}}
 <h3>Your search result of {{limit}} images about {{search}}</h3>
-{{#each imgList}}
-    <img src="{{this}}" alt=""><br>
+{{#each imgs}}
+    <img src="{{this.url}}" alt="">
+    <h5>{{this.title}}</h5>
 {{/each}}
+{{else}}
+<h3>Your search result of {{search}} returns no result</h3>
+{{/if}}
 <a href="/">HOME</a>

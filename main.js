@@ -45,12 +45,41 @@ app.get('/result', async (req,res) => {
     const giphys = await result.json();
     console.log(`List of images extracted: `,giphys);
 
-    let imgList = giphys.data.map(result => result.images.fixed_height.url);
-    console.log(`List of images to be shown: `,imgList);
+    // let imgs = giphys.data.map(result => [result.title, result.images.fixed_height.url]);
+
+    // array functions map - same dimension , filter - reduce dimension, reduce - concatenate
+
+    let imgs = giphys.data
+    .filter(
+        d => {
+            return !d.title.includes('f**k');
+        }
+    )
+    .map(
+        d => {
+            return {
+                title: d.title, url: d.images.fixed_height.url
+            }
+        }
+    );
+
+    // const imgs = []
+    // for (let d of giphys.data) {
+    //     const title = d.title
+    //     const url = d.images.fixed_height.url
+    //     imgs.push({title, url})
+    // }
+    console.log(`List of images to be shown: `,imgs);
+
 
     res.status(200);
     res.type('text/html');
-    res.render('result',{search, limit, imgList});
+    res.render('result',{
+        search, limit, imgs,
+        hasContent: imgs.length > 0
+        //hasContent: !!imgs.length
+    })
+
 })
 
 
